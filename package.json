@@ -29,6 +29,7 @@
     "dev": "nodemon src/index.ts",
     "db:generate": "npx drizzle-kit generate:pg",
     "db:migrate": "tsx src/db/migrate.ts",
-    "db:drop": "npx drizzle-kit drop"
+    "db:drop": "npx drizzle-kit drop",
+    "db:seed": "tsx src/db/seed.ts"
   }
 }
