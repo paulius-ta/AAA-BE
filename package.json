@@ -6,6 +6,7 @@
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.30.9",
     "express": "^4.19.2",
+    "openapi-typescript": "^6.7.6",
     "tsx": "^4.7.3"
   },
   "devDependencies": {
