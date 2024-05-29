@@ -2,7 +2,7 @@ import { components } from 'src/api/apiSchemas';
 
 export type SchemaTypes = components['schemas'];
 
-export type Description = SchemaTypes['Description'];
+export type Description = Omit<SchemaTypes['Description'], 'id'>;
 export type ArtifactAttribute = SchemaTypes['ArtifactAttribute'];
 export type History = SchemaTypes['History'];
 export type HistoryEntry = SchemaTypes['HistoryEntry'];
