@@ -1,4 +1,5 @@
 import { pgTable, serial, json, timestamp, integer, text, pgEnum } from 'drizzle-orm/pg-core';
+import { ContactDetails, Description, PaymentDetails } from 'src/api/types/apiTypes';
 export const StatusEnum = pgEnum('status', ['pending', 'finished']);
 
 export const auctionItem = pgTable('auction_item', {
@@ -13,7 +14,7 @@ export const auctionItem = pgTable('auction_item', {
 export const description = pgTable('description', {
   id: serial('id').primaryKey(),
   auctionItemId: serial('auction_item_id').references(() => auctionItem.id),
-  details: json('details'),
+  details: json('details').$type<Description>(),
 });
 
 export const history = pgTable('history', {
@@ -26,8 +27,8 @@ export const history = pgTable('history', {
 
 export const bidder = pgTable('bidder', {
   id: serial('id').primaryKey(),
-  contactDetails: json('contact_details'),
-  paymentDetails: json('payment_details'),
+  contactDetails: json('contact_details').$type<ContactDetails>(),
+  paymentDetails: json('payment_details').$type<PaymentDetails>(),
 });
 
 export const image = pgTable('image', {
