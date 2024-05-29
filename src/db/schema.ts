@@ -1,26 +1,25 @@
-import { pgTable, serial, json, timestamp, integer, text, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, serial, json, timestamp, integer, text, bigint } from 'drizzle-orm/pg-core';
 import { ContactDetails, Description, PaymentDetails } from 'src/api/types/apiTypes';
-export const StatusEnum = pgEnum('status', ['pending', 'finished']);
 
 export const auctionItem = pgTable('auction_item', {
-  id: serial('id').primaryKey(),
+  id: bigint('id', { mode: 'bigint' }).primaryKey(),
   minPrice: integer('min_price'),
   currentPrice: integer('current_price'),
   startTimestamp: timestamp('start_timestamp'),
   endTimestamp: timestamp('end_timestamp'),
-  status: StatusEnum('status'),
+  status: text('status'),
 });
 
 export const description = pgTable('description', {
   id: serial('id').primaryKey(),
-  auctionItemId: serial('auction_item_id').references(() => auctionItem.id),
+  auctionItemId: bigint('auction_item_id', { mode: 'bigint' }).references(() => auctionItem.id),
   details: json('details').$type<Description>(),
 });
 
 export const history = pgTable('history', {
   id: serial('id').primaryKey(),
-  auctionItemId: serial('auction_item_id').references(() => auctionItem.id),
-  bidderId: serial('bidder_id').references(() => bidder.id),
+  auctionItemId: bigint('auction_item_id', { mode: 'bigint' }).references(() => auctionItem.id),
+  bidderId: integer('bidder_id').references(() => bidder.id),
   amount: integer('amount'),
   timestamp: timestamp('timestamp'),
 });
@@ -33,6 +32,6 @@ export const bidder = pgTable('bidder', {
 
 export const image = pgTable('image', {
   id: serial('id').primaryKey(),
-  auctionItemId: serial('auction_item_id').references(() => auctionItem.id),
+  auctionItemId: bigint('auction_item_id', { mode: 'bigint' }).references(() => auctionItem.id),
   url: text('url'),
 });
