@@ -1,6 +1,7 @@
 import { db } from 'src/db/db';
 import { auctionItem, description, history, bidder } from 'src/db/schema';
-import { sql } from 'drizzle-orm';
+import { auctionItemData } from 'src/db/seed/auctionItemData';
+import { descriptionData } from 'src/db/seed/descriptionData';
 
 const main = async () => {
   try {
@@ -9,15 +10,8 @@ const main = async () => {
     await db.delete(history);
     await db.delete(bidder);
 
-    await db.insert(auctionItem).values([
-      {
-        minPrice: 0,
-        currentPrice: 100,
-        startTimestamp: sql`CURRENT_TIMESTAMP`,
-        endTimestamp: sql`CURRENT_TIMESTAMP + INTERVAL '1 hour'`,
-        status: 'pending',
-      },
-    ]);
+    await db.insert(auctionItem).values(auctionItemData);
+    await db.insert(description).values(descriptionData);
   } catch (error) {
     console.error(error);
   }
