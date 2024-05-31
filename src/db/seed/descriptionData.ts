@@ -1,6 +1,6 @@
 export const descriptionData = [
   {
-    auctionItemId: BigInt('90137109120'),
+    auctionItemId: 90137109120,
     details: {
       origin: ['unknown', 'mixed'],
       number: 4,

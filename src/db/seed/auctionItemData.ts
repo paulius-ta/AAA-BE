@@ -7,7 +7,7 @@ enum Status {
 
 export const auctionItemData = [
   {
-    id: BigInt('90137109120'),
+    id: 90137109120,
     minPrice: 0,
     currentPrice: 100,
     startTimestamp: sql`CURRENT_TIMESTAMP`,
