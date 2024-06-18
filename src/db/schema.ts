@@ -1,7 +1,7 @@
 import { pgTable, serial, json, timestamp, integer, text, bigint } from 'drizzle-orm/pg-core';
 import { ContactDetails, Description, PaymentDetails } from 'src/api/types/apiTypes';
 
-export const auctionItem = pgTable('auction_item', {
+export const auctionItemTable = pgTable('auction_item', {
   id: bigint('id', { mode: 'number' }).primaryKey(),
   minPrice: integer('min_price'),
   currentPrice: integer('current_price'),
@@ -10,28 +10,28 @@ export const auctionItem = pgTable('auction_item', {
   status: text('status'),
 });
 
-export const description = pgTable('description', {
+export const descriptionTable = pgTable('description', {
   id: serial('id').primaryKey(),
-  auctionItemId: bigint('auction_item_id', { mode: 'number' }).references(() => auctionItem.id),
+  auctionItemId: bigint('auction_item_id', { mode: 'number' }).references(() => auctionItemTable.id),
   details: json('details').$type<Description>(),
 });
 
-export const history = pgTable('history', {
+export const historyTable = pgTable('history', {
   id: serial('id').primaryKey(),
-  auctionItemId: bigint('auction_item_id', { mode: 'number' }).references(() => auctionItem.id),
-  bidderId: integer('bidder_id').references(() => bidder.id),
+  auctionItemId: bigint('auction_item_id', { mode: 'number' }).references(() => auctionItemTable.id),
+  bidderId: integer('bidder_id').references(() => bidderTable.id),
   amount: integer('amount'),
   timestamp: timestamp('timestamp'),
 });
 
-export const bidder = pgTable('bidder', {
+export const bidderTable = pgTable('bidder', {
   id: bigint('id', { mode: 'number' }).primaryKey(),
   contactDetails: json('contact_details').$type<ContactDetails>(),
   paymentDetails: json('payment_details').$type<PaymentDetails>(),
 });
 
-export const image = pgTable('image', {
+export const imageTable = pgTable('image', {
   id: bigint('id', { mode: 'number' }).primaryKey(),
-  auctionItemId: bigint('auction_item_id', { mode: 'number' }).references(() => auctionItem.id),
+  auctionItemId: bigint('auction_item_id', { mode: 'number' }).references(() => auctionItemTable.id),
   url: text('url'),
 });
