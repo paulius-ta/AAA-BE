@@ -1,8 +1,8 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { db } from './db/db';
-import { auctionItemTable } from './db/schema';
+import { db } from 'src/db/db';
+import { auctionItemTable } from 'src/db/schema';
 import { eq } from 'drizzle-orm';
 
 dotenv.config();
