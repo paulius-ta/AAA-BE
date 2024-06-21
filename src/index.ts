@@ -1,9 +1,7 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { db } from 'src/db/db';
-import { auctionItemTable } from 'src/db/schema';
-import { eq } from 'drizzle-orm';
+import auctionItemRoutes from 'src/routes/auctionItemRoutes';
 
 dotenv.config();
 
@@ -12,21 +10,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
-});
-
-app.get('/test', (req: Request, res: Response) => {
-  res.json({ test: 'test123' });
-});
-
-app.get('/auctionItem/:id', async (req: Request, res: Response) => {
-  const auctionItem = await db
-    .select()
-    .from(auctionItemTable)
-    .where(eq(auctionItemTable.id, Number(req.params.id)));
-  res.json({ data: auctionItem });
-});
+app.use('/auctionItem', auctionItemRoutes);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
