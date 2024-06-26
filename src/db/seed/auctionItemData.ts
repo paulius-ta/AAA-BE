@@ -1,6 +1,7 @@
 import { sql } from 'drizzle-orm';
 
 enum Status {
+  Active = 'active',
   Pending = 'pending',
   Finished = 'finished',
 }
@@ -12,6 +13,6 @@ export const auctionItemData = [
     currentPrice: 100,
     startTimestamp: sql`CURRENT_TIMESTAMP`,
     endTimestamp: sql`CURRENT_TIMESTAMP + INTERVAL '1 hour'`,
-    status: Status.Pending,
+    status: Status.Active,
   },
 ];

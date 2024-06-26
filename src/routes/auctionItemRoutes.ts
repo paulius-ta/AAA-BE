@@ -5,6 +5,21 @@ import { eq } from 'drizzle-orm';
 
 const router = express.Router();
 
+router.get('/', async (req: Request, res: Response) => {
+  try {
+    const auctionItem = await db.select().from(auctionItemTable).where(eq(auctionItemTable.status, 'active'));
+
+    if (auctionItem) {
+      res.status(200).json({ ...auctionItem[0] });
+    } else {
+      res.status(404).json({ message: 'Auction item not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching auction item:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 router.get('/:id', async (req: Request, res: Response) => {
   try {
     const auctionItem = await db
