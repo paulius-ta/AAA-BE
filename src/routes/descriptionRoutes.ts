@@ -13,7 +13,7 @@ router.get('/:id', async (req: Request, res: Response) => {
       .where(eq(descriptionTable.auctionItemId, Number(req.params.id)));
 
     if (description) {
-      res.status(200).json({ data: description });
+      res.status(200).json({ ...description[0] });
     } else {
       res.status(404).json({ message: 'Description not found' });
     }
