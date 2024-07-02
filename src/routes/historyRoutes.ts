@@ -13,7 +13,14 @@ router.get('/:id', async (req: Request, res: Response) => {
       .where(eq(historyTable.auctionItemId, Number(req.params.id)));
 
     if (history) {
-      res.status(200).json(history.map((entry) => entry));
+      res.status(200).json(
+        history.map((entry) => {
+          return {
+            amount: entry.amount,
+            timestamp: entry.timestamp,
+          };
+        }),
+      );
     } else {
       res.status(404).json({ message: 'History not found' });
     }
