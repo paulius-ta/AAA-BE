@@ -1,4 +1,7 @@
 import express, { Request, Response } from 'express';
+import { db } from 'src/db/db';
+import { bidderTable } from 'src/db/schema';
+
 const router = express.Router();
 
 router.post('', async (req: Request, res: Response) => {
@@ -6,10 +9,18 @@ router.post('', async (req: Request, res: Response) => {
     const { contactDetails, paymentDetails } = req.body;
 
     if (!contactDetails || !paymentDetails) {
-      res.status(404).json({ message: 'Contact and payment details are required' });
+      return res.status(400).json({ message: 'Contact and payment details are required' });
     }
 
-    res.status(200).json({ contactDetails, paymentDetails });
+    const [newBidder] = await db
+      .insert(bidderTable)
+      .values({
+        contactDetails,
+        paymentDetails,
+      })
+      .returning({ id: bidderTable.id });
+
+    res.status(201).json({ bidderId: newBidder.id });
   } catch (error) {
     console.error('Error processing request:', error);
     res.status(500).json({ message: 'Internal server error' });
