@@ -4,10 +4,10 @@ import { auctionItemData } from 'src/db/seed/auctionItemData';
 import { descriptionData } from 'src/db/seed/descriptionData';
 import { bidderData } from 'src/db/seed/bidderData';
 import { historyData } from 'src/db/seed/historyData';
+import { sql } from 'drizzle-orm';
 
 const main = async () => {
   try {
-    //TODO: FIX THIS, as it does not delete the db.
     await db.delete(auctionItemTable);
     await db.delete(descriptionTable);
     await db.delete(historyTable);
@@ -17,8 +17,14 @@ const main = async () => {
     await db.insert(descriptionTable).values(descriptionData);
     await db.insert(bidderTable).values(bidderData);
     await db.insert(historyTable).values(historyData);
+
+    await db.execute(sql`
+      SELECT setval(pg_get_serial_sequence('bidder', 'id'), (SELECT MAX(id) FROM bidder));
+    `);
+
+    console.log('Database seeded successfully');
   } catch (error) {
-    console.error(error);
+    console.error('Error seeding database:', error);
   }
 };
 
