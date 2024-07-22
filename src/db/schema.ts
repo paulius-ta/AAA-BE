@@ -25,7 +25,7 @@ export const historyTable = pgTable('history', {
 });
 
 export const bidderTable = pgTable('bidder', {
-  id: bigint('id', { mode: 'number' }).primaryKey(),
+  id: serial('id').primaryKey(),
   contactDetails: json('contact_details').$type<ContactDetails>(),
   paymentDetails: json('payment_details').$type<PaymentDetails>(),
 });
