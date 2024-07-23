@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import dayjs from 'dayjs';
 import { db } from 'src/db/db';
 import { historyTable } from 'src/db/schema';
 import { eq } from 'drizzle-orm';
@@ -26,6 +27,30 @@ router.get('/:id', async (req: Request, res: Response) => {
     }
   } catch (error) {
     console.error('Error fetching history list:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.post('/create', async (req: Request, res: Response) => {
+  try {
+    const { auctionItemId, bidderId, amount } = req.body;
+
+    if (!auctionItemId || !bidderId || !amount) {
+      return res.status(400).json({ message: 'Auction item ID, bidder ID, and payment amount are required' });
+    }
+
+    const formattedTimestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
+
+    await db.insert(historyTable).values({
+      auctionItemId,
+      bidderId,
+      amount,
+      timestamp: new Date(formattedTimestamp),
+    });
+
+    res.status(200).json({ message: 'History entry created' });
+  } catch (error) {
+    console.error('Error processing request:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
