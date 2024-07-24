@@ -39,13 +39,11 @@ router.post('/create', async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Auction item ID, bidder ID, and payment amount are required' });
     }
 
-    const formattedTimestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
-
     await db.insert(historyTable).values({
       auctionItemId,
       bidderId,
       amount,
-      timestamp: new Date(formattedTimestamp),
+      timestamp: dayjs().toDate(),
     });
 
     res.status(200).json({ message: 'History entry created' });
