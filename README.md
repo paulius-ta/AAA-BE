@@ -1,4 +1,5 @@
 # AAA-BE
 
-## commands
-`npx openapi-typescript src/api/apiSchemas.yaml -o src/api/apiSchemas.ts`
+The truth is out there (but not in this repo) 👽
+
+Go here [AAA](https://github.com/paulius-ta/AAA)
